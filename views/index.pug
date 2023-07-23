@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+        title= title
+    body
+        h1= title
+        ul
+            each item in clothingItems
+                li
+                    a(href=`/clothing/${item.id}`)= item.name
