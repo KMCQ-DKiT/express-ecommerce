@@ -5,10 +5,16 @@ html
     body
         div.container
             h1= clothingItem.name
-            p= clothingItem.description
-            p= `Price: $${clothingItem.price}`
-            p= `Category: ${clothingItem.category}`
-            img(src=clothingItem.image, alt=clothingItem.name)
+            p.card-text= clothingItem.description
+            p.card-text= `Price: $${clothingItem.price}`
+            p.card-text= `Category: ${clothingItem.category}`
+            img.card-img-top(src=clothingItem.image, alt=clothingItem.name)
+
+        // Quantity selector and Add to Cart form
+        form(action=`/cart/add/${clothingItem.id}`, method='post')
+            label(for='quantity') Quantity:
+            input(type='number', id='quantity', name='quantity', value='1', min='1', max='10')
+            button.btn.btn-primary(type='submit') Add to Cart
 
         p
-            a(href='/cart/add/' + clothingItem.id, role='button') Add to Cart
+            a.btn.btn-success(href='/') Continue shopping

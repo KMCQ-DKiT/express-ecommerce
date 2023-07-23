@@ -2,22 +2,30 @@ doctype html
 html
     head
         title= title
-        h2 Your Shopping Cart
-        a(href='/cart') View Cart
+        div
 
     body
-        h1= title
-        ul
-            each item in clothingItems
-                li
-                    a(href=`/clothing/${item.id}`)
+        div.container
+            h1= title
+            a.btn.btn-success(href='/cart') View Cart
+            ul.list-group
+                each item in clothingItems
+                    li.list-group-item
                         h2= item.name
-                        p= item.description
-                        p= `Price: $${item.price}`
-                        p= `Category: ${item.category}`
-                        img(src=item.image, alt=item.name)
-                    form(action=`/cart/add/${item.id}`, method='post')
-                        button(type='submit') Add to Cart
+                        p.card-text= item.description
+                        p.card-text= `Price: $${item.price}`
+                        p.card-text= `Category: ${item.category}`
+                        img.card-img-top(src=item.image, alt=item.name)
+                        div
+                        // View item details link
+                        a.btn.btn-primary(href=`/clothing/${item.id}`) View Details
 
-        h2 Your Shopping Cart
-        a(href='/cart') View Cart
+
+                        // Quantity selector and Add to Cart form
+                        form(action='/cart/add', method='post')
+                            input(type='hidden', name='id', value=item.id)
+                            label(for=`quantity-${item.id}`) Quantity:
+                            button.btn.btn-success(type='submit') Add to Cart
+
+        p
+            a.btn.btn-success(href='/cart') View Cart

@@ -53,10 +53,11 @@ app.get('/clothing/:id', (req, res) => {
         res.render('clothing_detail', { title: clothingItem.name, clothingItem });
     }
 });
-
 // Route for adding items to the shopping cart
-app.post('/cart/add/:id', (req, res) => {
-    const id = parseInt(req.params.id);
+app.post('/cart/add', (req, res) => {
+    const id = parseInt(req.body.id);
+    const quantity = parseInt(req.body.quantity);
+
     const clothingItem = clothingItems.find((item) => item.id === id);
     if (!clothingItem) {
         res.status(404).send('Clothing item not found.');
@@ -66,15 +67,40 @@ app.post('/cart/add/:id', (req, res) => {
         // Check if the item is already in the cart
         const existingItem = req.session.cart.find((item) => item.id === id);
         if (existingItem) {
-            existingItem.quantity += 1;
+            existingItem.quantity += quantity;
         } else {
-            clothingItem.quantity = 1;
+            clothingItem.quantity = quantity;
             req.session.cart.push(clothingItem);
         }
 
         res.redirect('/');
     }
 });
+
+// Route for adding items to the shopping cart
+app.post('/cart/add/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const quantity = parseInt(req.body.quantity);
+
+    const clothingItem = clothingItems.find((item) => item.id === id);
+    if (!clothingItem) {
+        res.status(404).send('Clothing item not found.');
+    } else {
+        req.session.cart = req.session.cart || [];
+
+        // Check if the item is already in the cart
+        const existingItem = req.session.cart.find((item) => item.id === id);
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            clothingItem.quantity = quantity;
+            req.session.cart.push(clothingItem);
+        }
+
+        res.redirect('/');
+    }
+});
+
 
 
 // Route for updating the quantity of items in the cart
