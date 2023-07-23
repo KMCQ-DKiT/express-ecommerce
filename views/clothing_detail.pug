@@ -3,8 +3,12 @@ html
     head
         title= title
     body
-        h3= clothingItem.name
-        p= clothingItem.description
-        p= `Price: $${clothingItem.price}`
-        p= `Category: ${clothingItem.category}`
-        img(src=clothingItem.image, alt=clothingItem.name)
+        div.container
+            h1= clothingItem.name
+            p= clothingItem.description
+            p= `Price: $${clothingItem.price}`
+            p= `Category: ${clothingItem.category}`
+            img(src=clothingItem.image, alt=clothingItem.name)
+
+        p
+            a(href='/cart/add/' + clothingItem.id, role='button') Add to Cart
