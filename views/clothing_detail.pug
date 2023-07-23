@@ -11,10 +11,11 @@ html
             img.card-img-top(src=clothingItem.image, alt=clothingItem.name)
 
         // Quantity selector and Add to Cart form
-        form(action=`/cart/add/${clothingItem.id}`, method='post')
+        form(action='/cart/add', method='post')
+            input(type='hidden', name='id', value=clothingItem._id)
             label(for='quantity') Quantity:
             input(type='number', id='quantity', name='quantity', value='1', min='1', max='10')
-            button.btn.btn-primary(type='submit') Add to Cart
+            button.btn.btn-success(type='submit') Add to Cart
 
         p
             a.btn.btn-success(href='/') Continue shopping

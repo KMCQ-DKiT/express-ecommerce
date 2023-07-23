@@ -18,10 +18,10 @@ html
                             img.card-img-top(src=item.image, alt=item.name)
 
                             // Quantity selector for each item
-                        form(action=`/cart/update/${item.id}`, method='post')
-                            label(for=`quantity-${item.id}`) Quantity:
-                            input(type='number', id=`quantity-${item.id}`, name='quantity', value=item.quantity, min='1', max='10', onchange='this.form.submit()')
-                            button.btn.btn-danger(type='submit', formaction=`/cart/remove/${item.id}`) Remove from Cart
+                        form(action=`/cart/update/${item._id}`, method='post')
+                            label(for=`quantity-${item._id}`) Quantity:
+                            input(type='number', id=`quantity-${item._id}`, name='quantity', value=item.quantity, min='1', max='10', onchange='this.form.submit()')
+                            button.btn.btn-danger(type='submit', formaction=`/cart/remove/${item._id}`) Remove from Cart
 
 
                 // Calculate the total price

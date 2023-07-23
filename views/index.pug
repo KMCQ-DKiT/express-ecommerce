@@ -18,13 +18,13 @@ html
                         img.card-img-top(src=item.image, alt=item.name)
                         div
                         // View item details link
-                        a.btn.btn-primary(href=`/clothing/${item.id}`) View Details
+                        a.btn.btn-primary(href=`/clothing/${item._id}`) View Details
 
 
                         // Quantity selector and Add to Cart form
                         form(action='/cart/add', method='post')
-                            input(type='hidden', name='id', value=item.id)
-                            label(for=`quantity-${item.id}`) Quantity:
+                            input(type='hidden', name='id', value=item._id)
+                            label(for=`quantity-${item._id}`) Quantity:
                             button.btn.btn-success(type='submit') Add to Cart
 
         p
