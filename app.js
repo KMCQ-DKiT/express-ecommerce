@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const faker = require('faker');
 
@@ -19,10 +20,20 @@ for (let i = 0; i < 10; i++) {
     });
 }
 
+// Express session middleware
+app.use(
+    session({
+        secret: 'your_secret_key_here',
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+
 // Route for displaying the list of clothing items
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Clothing Store', clothingItems });
+    res.render('index', { title: 'Clothing Store', clothingItems, cart: req.session.cart || [] });
 });
+
 
 // Route for displaying the details of a specific clothing item
 app.get('/clothing/:id', (req, res) => {
@@ -33,6 +44,36 @@ app.get('/clothing/:id', (req, res) => {
     } else {
         res.render('clothing_detail', { title: clothingItem.name, clothingItem });
     }
+});
+
+// Route for adding items to the shopping cart
+app.post('/cart/add/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const clothingItem = clothingItems.find((item) => item.id === id);
+    if (!clothingItem) {
+        res.status(404).send('Clothing item not found.');
+    } else {
+        req.session.cart = req.session.cart || [];
+        req.session.cart.push(clothingItem);
+        res.redirect('/');
+    }
+});
+
+// Route for removing items from the shopping cart
+app.post('/cart/remove/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    if (!req.session.cart || req.session.cart.length === 0) {
+        res.redirect('/cart');
+    } else {
+        req.session.cart = req.session.cart.filter((item) => item.id !== id);
+        res.redirect('/cart');
+    }
+});
+
+
+// Route for displaying the shopping cart
+app.get('/cart', (req, res) => {
+    res.render('cart', { title: 'Shopping Cart', cart: req.session.cart || [] });
 });
 
 const port = 3000;

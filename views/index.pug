@@ -2,9 +2,22 @@ doctype html
 html
     head
         title= title
+        h2 Your Shopping Cart
+        a(href='/cart') View Cart
     body
+
         h1= title
         ul
             each item in clothingItems
                 li
-                    a(href=`/clothing/${item.id}`)= item.name
+                    a(href=`/clothing/${item.id}`)
+                        h2= item.name
+                        p= item.description
+                        p= `Price: $${item.price}`
+                        p= `Category: ${item.category}`
+                        img(src=item.image, alt=item.name)
+                    form(action=`/cart/add/${item.id}`, method='post')
+                        button(type='submit') Add to Cart
+
+        h2 Your Shopping Cart
+        a(href='/cart') View Cart

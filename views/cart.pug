@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        title= title
+    body
+        h1= title
+        if cart.length === 0
+            p Your cart is empty.
+        else
+            ul
+                each item in cart
+                    li
+                        h2= item.name
+                        p= item.description
+                        p= `Price: $${item.price}`
+                        p= `Category: ${item.category}`
+                        img(src=item.image, alt=item.name)
+
+                        form(action=`/cart/remove/${item.id}`, method='post')
+                            button(type='submit') Remove from Cart
+
+            // Calculate the total price
+            - let totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+
+            h2 Total Price: $#{totalPrice.toFixed(2)}
+
+        p
+            a(href='/') Continue shopping
